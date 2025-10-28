@@ -10,11 +10,11 @@
 <body class="bg-body">
 <div class="container py-4">
   <div class="d-flex justify-content-between align-items-center mb-3">
-    <h3 class="app-title">🧿 Amulet Admin Pro v2.9</h3>
-    <span class="badge text-bg-success">Render</span>
+    <h3 class="app-title">🧿 Amulet Admin Pro</h3>
+    <span class="badge text-bg-success">ONLINE</span>
   </div>
 
-  <ul class="nav nav-tabs mb-3" id="tabs">
+  <ul class="nav nav-tabs mb-3">
     <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#tabLicenses">Licenses</button></li>
     <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tabApiKeys">API Keys</button></li>
     <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#tabVoices">Voices</button></li>
@@ -25,17 +25,15 @@
 
   <div class="tab-content">
 
-    <!-- ===================================================== -->
     <!-- LICENCES -->
-    <!-- ===================================================== -->
     <div class="tab-pane fade show active" id="tabLicenses">
       <div class="row g-3">
         <div class="col-lg-8">
           <div class="input-group mb-2 flex-wrap">
             <input id="licSearch" class="form-control" placeholder="Пошук по key або MAC">
             <button class="btn btn-outline-secondary" onclick="loadLicenses()">🔍</button>
-            <input id="minCredit" type="number" class="form-control" placeholder="min credit" style="max-width:120px">
-            <input id="maxCredit" type="number" class="form-control" placeholder="max credit" style="max-width:120px">
+            <input id="minCredit" type="number" class="form-control" placeholder="min" style="max-width:100px">
+            <input id="maxCredit" type="number" class="form-control" placeholder="max" style="max-width:100px">
             <select id="filterActive" class="form-select" style="max-width:150px">
               <option value="">all</option>
               <option value="true">active</option>
@@ -50,27 +48,24 @@
             </table>
           </div>
         </div>
-
         <div class="col-lg-4">
           <div class="card"><div class="card-body">
-            <h6 id="licFormTitle">Редагування ліцензії</h6>
+            <h6>Додати / Редагувати ліцензію</h6>
             <input id="licId" type="hidden">
-            <div class="mb-2"><label class="form-label">Key</label><input id="licKey" class="form-control"></div>
-            <div class="mb-2"><label class="form-label">MAC</label><input id="licMac" class="form-control"></div>
-            <div class="mb-2"><label class="form-label">Credit</label><input id="licCredit" type="number" class="form-control" value="0"></div>
+            <div class="mb-2"><label>Key</label><input id="licKey" class="form-control"></div>
+            <div class="mb-2"><label>MAC</label><input id="licMac" class="form-control"></div>
+            <div class="mb-2"><label>Credit</label><input id="licCredit" type="number" class="form-control" value="0"></div>
             <div class="form-check mb-2"><input id="licActive" type="checkbox" class="form-check-input" checked><label class="form-check-label">Active</label></div>
-            <div class="d-flex gap-2 flex-wrap">
-              <button class="btn btn-primary" onclick="submitLicense()">💾 Зберегти</button>
-              <button class="btn btn-secondary" onclick="resetLicenseForm()">↺ Очистити</button>
+            <div class="d-flex gap-2">
+              <button class="btn btn-primary" onclick="submitLicense()">💾 Save</button>
+              <button class="btn btn-secondary" onclick="resetLicenseForm()">↺ Clear</button>
             </div>
           </div></div>
         </div>
       </div>
     </div>
 
-    <!-- ===================================================== -->
     <!-- API KEYS -->
-    <!-- ===================================================== -->
     <div class="tab-pane fade" id="tabApiKeys">
       <div class="row g-3">
         <div class="col-lg-8">
@@ -81,51 +76,46 @@
         </div>
         <div class="col-lg-4">
           <div class="card"><div class="card-body">
-            <h6>Додати API ключ</h6>
-            <div class="mb-2"><input id="keyValue" class="form-control" placeholder="API key"></div>
-            <div class="mb-2">
-              <select id="keyStatus" class="form-select">
-                <option value="active">active</option>
-                <option value="inactive">inactive</option>
-                <option value="blocked">blocked</option>
-              </select>
+            <h6>Додати / Редагувати ключ</h6>
+            <input id="keyId" type="hidden">
+            <input id="keyValue" class="form-control mb-2" placeholder="API key">
+            <select id="keyStatus" class="form-select mb-2">
+              <option value="active">active</option>
+              <option value="inactive">inactive</option>
+              <option value="blocked">blocked</option>
+            </select>
+            <div class="d-flex gap-2">
+              <button class="btn btn-primary w-100" onclick="submitApiKey()">💾 Save</button>
+              <button class="btn btn-secondary w-100" onclick="resetApiKeyForm()">↺ Clear</button>
             </div>
-            <button class="btn btn-primary w-100" onclick="submitApiKey()">💾 Зберегти</button>
           </div></div>
         </div>
       </div>
     </div>
 
-    <!-- ===================================================== -->
     <!-- VOICES -->
-    <!-- ===================================================== -->
     <div class="tab-pane fade" id="tabVoices">
       <div class="row g-3">
         <div class="col-lg-8">
           <div class="d-flex justify-content-between align-items-center mb-2">
             <h6>Voices</h6>
-            <div class="d-flex gap-2">
-              <button class="btn btn-outline-success btn-sm" onclick="exportVoices()">📥 Export</button>
-              <button class="btn btn-outline-danger btn-sm" onclick="deleteAllVoices()">🗑 Delete All</button>
-            </div>
+            <button class="btn btn-outline-danger btn-sm" onclick="deleteAllVoices()">🗑 Delete All</button>
           </div>
-          <div class="table-responsive">
-            <table class="table table-sm table-striped align-middle">
-              <thead><tr><th>ID</th><th>Name</th><th>Voice ID</th><th>Active</th><th></th></tr></thead>
-              <tbody id="voicesTbody"></tbody>
-            </table>
-          </div>
+          <table class="table table-sm table-striped align-middle">
+            <thead><tr><th>ID</th><th>Name</th><th>Voice ID</th><th>Active</th><th></th></tr></thead>
+            <tbody id="voicesTbody"></tbody>
+          </table>
         </div>
-
         <div class="col-lg-4">
           <div class="card"><div class="card-body">
-            <h6>Додати голос</h6>
-            <div class="mb-2"><input id="voiceName" class="form-control" placeholder="Name"></div>
-            <div class="mb-2"><input id="voiceValue" class="form-control" placeholder="Voice ID"></div>
+            <h6>Додати / Редагувати голос</h6>
+            <input id="voiceId" type="hidden">
+            <input id="voiceName" class="form-control mb-2" placeholder="Name">
+            <input id="voiceValue" class="form-control mb-2" placeholder="Voice ID">
             <div class="form-check mb-2"><input id="voiceActive" type="checkbox" class="form-check-input" checked><label class="form-check-label">Active</label></div>
             <div class="d-flex gap-2 mb-3">
-              <button class="btn btn-primary" onclick="submitVoice()">💾 Зберегти</button>
-              <button class="btn btn-secondary" onclick="resetVoiceForm()">↺ Очистити</button>
+              <button class="btn btn-primary" onclick="submitVoice()">💾 Save</button>
+              <button class="btn btn-secondary" onclick="resetVoiceForm()">↺ Clear</button>
             </div>
             <hr>
             <label class="form-label">Upload Voices (.txt)</label>
@@ -136,9 +126,7 @@
       </div>
     </div>
 
-    <!-- ===================================================== -->
     <!-- LOGS -->
-    <!-- ===================================================== -->
     <div class="tab-pane fade" id="tabLogs">
       <div class="d-flex gap-2 mb-2">
         <input id="logSearch" class="form-control" placeholder="Пошук по key/mac">
@@ -152,21 +140,19 @@
       </div>
     </div>
 
-    <!-- ===================================================== -->
     <!-- CONFIG -->
-    <!-- ===================================================== -->
     <div class="tab-pane fade" id="tabConfig">
       <div class="col-lg-6">
         <div class="card"><div class="card-body">
-          <h6>Конфігурація</h6>
+          <h6>Конфігурація системи</h6>
           <div class="mb-2"><input id="cfgLatest" class="form-control" placeholder="latest_version"></div>
           <div class="form-check mb-2"><input id="cfgForce" type="checkbox" class="form-check-input"><label class="form-check-label">force_update</label></div>
           <div class="form-check mb-2"><input id="cfgMaint" type="checkbox" class="form-check-input"><label class="form-check-label">maintenance</label></div>
-          <div class="mb-2"><textarea id="cfgMaintMsg" class="form-control" rows="2" placeholder="maintenance_message"></textarea></div>
-          <div class="mb-2"><textarea id="cfgDesc" class="form-control" rows="2" placeholder="update_description"></textarea></div>
-          <div class="mb-2"><textarea id="cfgLinks" class="form-control" rows="2" placeholder="update_links"></textarea></div>
+          <textarea id="cfgMaintMsg" class="form-control mb-2" rows="2" placeholder="maintenance_message"></textarea>
+          <textarea id="cfgDesc" class="form-control mb-2" rows="2" placeholder="update_description"></textarea>
+          <textarea id="cfgLinks" class="form-control mb-3" rows="2" placeholder='["https://example.com", "https://update.com"]'></textarea>
           <div class="d-flex gap-2 flex-wrap">
-            <button class="btn btn-primary" onclick="saveConfig()">💾 Зберегти</button>
+            <button class="btn btn-primary" onclick="saveConfig()">💾 Save Config</button>
             <button class="btn btn-outline-success" onclick="downloadBackup()">📥 Backup Config</button>
             <button class="btn btn-outline-warning" onclick="downloadUsersBackup()">📦 Backup Users</button>
           </div>
@@ -174,14 +160,12 @@
       </div>
     </div>
 
-    <!-- ===================================================== -->
     <!-- API CONSOLE -->
-    <!-- ===================================================== -->
     <div class="tab-pane fade" id="tabConsole">
       <div class="card"><div class="card-body">
         <h6>API Console</h6>
-        <div class="mb-2"><input id="apiAction" class="form-control" placeholder="action (check, get_config, get_voices...)"></div>
-        <div class="mb-2"><textarea id="apiPayload" class="form-control" rows="4" placeholder='{"key":"KEY-1","mac":"AA-BB"}'></textarea></div>
+        <input id="apiAction" class="form-control mb-2" placeholder="action (check, get_config, get_voices...)">
+        <textarea id="apiPayload" class="form-control mb-2" rows="4" placeholder='{"key":"KEY-1","mac":"AA-BB"}'></textarea>
         <div class="d-flex gap-2 mb-2">
           <button class="btn btn-outline-primary" onclick="runConsole()">▶ Run</button>
           <button class="btn btn-outline-secondary" onclick="formatJson()">{} Format</button>
